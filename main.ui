@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>870</width>
-    <height>1027</height>
+    <width>530</width>
+    <height>516</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>660</y>
+      <y>430</y>
       <width>121</width>
       <height>31</height>
      </rect>
@@ -37,7 +37,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Email получателей:</string>
+     <string>Получатели и вложения</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -173,42 +173,6 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label_7">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>440</y>
-      <width>141</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Прикрепить файл</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="attach_file">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>440</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Открыть</string>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="files_to_be_send">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>470</y>
-      <width>291</width>
-      <height>171</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="email_to">
     <property name="geometry">
      <rect>
@@ -228,8 +192,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>870</width>
-     <height>21</height>
+     <width>530</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuEmailer">

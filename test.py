@@ -26,12 +26,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.from_password = self.findChild(QtWidgets.QLineEdit, 'user_password')
         self.from_password.setEchoMode(QtWidgets.QLineEdit.Password)
 
-        self.choose_files_button = self.findChild(QtWidgets.QPushButton, 'attach_file')
-        self.UploadedFiles = self.findChild(QtWidgets.QTextEdit, 'files_to_be_send')
+
 
         self.pushButton.clicked.connect(self.on_send_button_clicked)
-        self.choose_files_button.clicked.connect(self.on_choose_files_clicked)
-        self.selected_files = []
+
 
         self.choose_email_contacts.clicked.connect(self.on_choose_email_contacts)
         self.csv_file_path = None
@@ -86,12 +84,15 @@ class MainWindow(QtWidgets.QMainWindow):
     def get_addreses_from_csv(self, file_path):
         recipients = []
         with open(file_path, "r", encoding="utf-8") as file:
-            reader = csv.reader(file)
+            reader = csv.reader(file, delimiter=";")
             for row in reader:
-                if row:  # Пропуск пустых строк
-                    addr_to = row[0].strip()  # Берём email-адрес
-                    recipients.append(addr_to)
-        print('Выбраны email: ', recipients)
+                if not row or len(row) < 1:
+                    continue  # Пропускаем пустые строки или строки без email
+                row = row[0].split(';')
+                addr_to = row[0]  # Первый элемент — email
+                attachments = [attachment.strip() for attachment in row[1:] if attachment.strip()]  # Остальное — файлы
+                recipients.append((addr_to, attachments))  # Добавляем в список кортеж (email, [файлы])
+        print('Выбраны email и файлы: ', recipients)
         return recipients
 
     def on_choose_files_clicked(self):
@@ -116,15 +117,13 @@ class MainWindow(QtWidgets.QMainWindow):
         smtp_server, smtp_port = self.get_smtp_server(server_type)
         try:
             recipients = self.get_addreses_from_csv(self.csv_file_path)
-            for address in recipients:
-                print('Отправляю письмо на:', address)
-                send_email(sender_addr, sender_passwd, smtp_server, smtp_port, self.selected_files, address, header, message)
+            for address, files in recipients:
+                send_email(sender_addr, sender_passwd, smtp_server, smtp_port, files, address, header, message)
         except Exception as e:
             QtWidgets.QMessageBox.critical(self, "Ошибка", f"Не удалось отправить письма: {str(e)}")
 
 
 def send_email(sender_addr, sender_passwd, smtp_server, smtp_port, files, addr_to, msg_subj, msg_text):
-    print('Готовлюсь к отправке')
     msg = MIMEMultipart()
     msg['From'] = sender_addr
     msg['To'] = addr_to
