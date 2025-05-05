@@ -22,7 +22,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.pushButton.clicked.connect(self.calculate)
     def calculate(self):
-        print("ВХод")
         expression = self.lineEdit.text()
         # Проверяем, что поле не пустое
         if not expression.strip():
